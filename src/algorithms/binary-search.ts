@@ -1,4 +1,4 @@
-export type Index = number;
+export type Index = number | null;
 
 export function binarySearch(
   array: number[],
@@ -13,17 +13,18 @@ export function binarySearch(
 ): Index {
   const middle = Math.floor((indexes.start + indexes.end) / 2);
   const numberAtMiddle = array[middle];
-  console.log(`
-  middle: ${middle}
-  numberAtMiddle: ${numberAtMiddle}
-`);
+
   if (numberAtMiddle === numberToFind) return middle;
 
   const isGreater = numberToFind > numberAtMiddle;
+  const isLower = !isGreater;
 
-  console.log(`
-    isGreater: ${isGreater}
-  `);
+  if (
+    (isGreater && middle >= indexes.end) ||
+    (isLower && middle <= indexes.start)
+  ) {
+    return null;
+  }
 
   if (isGreater) {
     return binarySearch(array, numberToFind, {

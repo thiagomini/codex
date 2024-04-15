@@ -13,4 +13,8 @@ describe('Binary Search', () => {
   test('returns the index of the middle element of a sorted array', () => {
     expect(binarySearch([10, 20, 30], 20)).toBe(1);
   });
+
+  test('returns null when not found', () => {
+    expect(binarySearch([10, 20, 30], 40)).toBeNull();
+  });
 });
