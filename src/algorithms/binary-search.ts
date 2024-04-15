@@ -38,3 +38,31 @@ export function binarySearch(
     });
   }
 }
+
+
+export function binarySearchIterative(
+  array: number[],
+  numberToFind: number
+): Index {
+  const maxIterations = Math.ceil(Math.log2(array.length));
+
+  let start = 0;
+  let end = array.length - 1;
+
+  for (let i = 0; i < maxIterations; i++) {
+    const middle = Math.floor((start + end) / 2);
+    const numberAtMiddle = array[middle];
+
+    if (numberAtMiddle === numberToFind) {
+      return middle;
+    }
+    const isGreater = numberToFind > numberAtMiddle;
+    if (isGreater) {
+      start = Math.min(end + 1, array.length - 1);
+    } else {
+      end = Math.max(start - 1, 0);
+    }
+  }
+
+  return null;
+}
