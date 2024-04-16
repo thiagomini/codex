@@ -5,4 +5,9 @@ describe('Selection Sort', () => {
     const list = [20, 10, 30];
     expect(selectionSort(list, 'DESC')).toEqual([30, 20, 10]);
   });
+
+  test('sorts in ascending order', () => {
+    const list = [20, 10, 30];
+    expect(selectionSort(list, 'ASC')).toEqual([10, 20, 30]);
+  });
 });

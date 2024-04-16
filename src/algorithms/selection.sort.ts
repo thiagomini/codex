@@ -6,8 +6,11 @@ export function selectionSort(list: number[], order: 'ASC' | 'DESC'): number[] {
     let indexOfMax = 0;
     for (let i = 0; i < copy.length; i++) {
       const currentValue = copy[i];
-      const maxValue = copy[indexOfMax];
-      if (currentValue >= maxValue) {
+      const maxOrMinValue = copy[indexOfMax];
+      if (
+        (order === 'DESC' && currentValue >= maxOrMinValue) ||
+        (order === 'ASC' && currentValue <= maxOrMinValue)
+      ) {
         indexOfMax = i;
       }
     }
