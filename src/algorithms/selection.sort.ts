@@ -22,9 +22,15 @@ export function selectionSort(list: number[], order: 'ASC' | 'DESC'): number[] {
   return result;
 }
 
+// Interestingly, this "Optimized" version of selection sort takes more time than the "naive" implementation.
+// I thought that copying the array and mutating the "copy" every time would be more expensive than using a Set,
+// but that doesn't seem to be the case. Would that be a quirk of bun?
 export function selectionSortOpt(list: number[], order: 'ASC' | 'DESC') {
-  debugger;
-  const availableIndexesMap = new Set<number>(list.map((_n, i) => i));
+  const availableIndexesMap = new Set<number>();
+  for (let i = 0; i < list.length; i++) {
+    availableIndexesMap.add(i);
+  }
+
   const sorted: number[] = [];
 
   while (sorted.length < list.length) {

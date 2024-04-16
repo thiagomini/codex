@@ -1,5 +1,10 @@
 import { describe, test, expect } from 'bun:test';
 import { selectionSort, selectionSortOpt } from './selection.sort';
+
+const randomListOfManyNumbers = Array.from({ length: 1e4 }, () =>
+  Math.floor(Math.random() * 1000)
+);
+
 describe('Selection Sort', () => {
   describe('naive implementation', () => {
     test('sorts in DESC order', () => {
@@ -30,6 +35,12 @@ describe('Selection Sort', () => {
     test('sorts an empty array in ASC order', () => {
       const list: number[] = [];
       expect(selectionSort(list, 'ASC')).toEqual([]);
+    });
+
+    test('sorts a large array in DESC order', () => {
+      console.time('naive');
+      selectionSort(randomListOfManyNumbers, 'DESC');
+      console.timeEnd('naive');
     });
   });
   describe('optimized implementation', () => {
@@ -62,5 +73,17 @@ describe('Selection Sort', () => {
       const list: number[] = [];
       expect(selectionSortOpt(list, 'ASC')).toEqual([]);
     });
+
+    test('sorts a large array in DESC order', () => {
+      console.time('OPT');
+      selectionSortOpt(randomListOfManyNumbers, 'DESC');
+      console.timeEnd('OPT');
+    });
+  });
+
+  describe('native sort', () => {
+    console.time('Native');
+    randomListOfManyNumbers.sort((a, b) => a - b);
+    console.timeEnd('Native');
   });
 });
