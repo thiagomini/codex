@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'bun:test';
-import { count, sum } from './recursion';
+import { count, max, sum } from './recursion';
 
 describe('Recursion', () => {
   describe('sum', () => {
@@ -23,6 +23,18 @@ describe('Recursion', () => {
     });
     test('counts the number of elements of an array with many elements', () => {
       expect(count([10, 20, 30])).toBe(3);
+    });
+  });
+
+  describe('max', () => {
+    test('finds the max value of an empty array', () => {
+      expect(max([])).toBeNull();
+    });
+    test('finds the max value of an array with a single element', () => {
+      expect(max([10])).toBe(10);
+    });
+    test('finds the max value of an array with many elements', () => {
+      expect(max([10, 20, 30])).toBe(30);
     });
   });
 });
