@@ -1,4 +1,4 @@
-import { describe, test, expect } from 'bun:test';
+import { describe, test } from 'bun:test';
 
 describe('Array', () => {
   test('should remove from few elements with O(1)', () => {
