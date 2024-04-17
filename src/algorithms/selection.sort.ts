@@ -1,3 +1,7 @@
+/**
+ * Selects the Max or Min values for each iteration and put it in the results array.
+ * @complexity O(n²)
+ */
 export function selectionSort(list: number[], order: 'ASC' | 'DESC'): number[] {
   const result: number[] = [];
   let copy = structuredClone(list);
