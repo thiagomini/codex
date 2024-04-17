@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'bun:test';
-import { sum } from './recursion';
+import { count, sum } from './recursion';
 
 describe('Recursion', () => {
   describe('sum', () => {
@@ -11,6 +11,18 @@ describe('Recursion', () => {
     });
     test('sums up an array with a multiple values', () => {
       expect(sum([1, 2, 3])).toEqual(6);
+    });
+  });
+
+  describe('count', () => {
+    test('counts the number of elements of an empty array', () => {
+      expect(count([])).toBe(0);
+    });
+    test('counts the number of elements of an array with a single element', () => {
+      expect(count([10])).toBe(1);
+    });
+    test('counts the number of elements of an array with many elements', () => {
+      expect(count([10, 20, 30])).toBe(3);
     });
   });
 });
