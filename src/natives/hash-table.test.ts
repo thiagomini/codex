@@ -53,4 +53,15 @@ describe('Hash Table', () => {
 
     expect(aHashTable.size).toBe(3);
   });
+
+  test('should keep track of collisions', () => {
+    const hashFunction = (k: string): number => k.charCodeAt(0);
+    const aHashTable = new HashTable(hashFunction);
+    aHashTable.set('avocado', 1);
+    aHashTable.set('apple', 2);
+
+    expect(aHashTable.size).toBe(2);
+    expect(aHashTable.get('avocado')).toBe(1);
+    expect(aHashTable.get('apple')).toBe(2);
+  });
 });
