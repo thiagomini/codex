@@ -27,12 +27,10 @@ export class HashTable {
 
   public delete(key: string): unknown | undefined {
     const hashedKey = this.hash(key);
-    const existingKeyIndex = this.values[hashedKey].findIndex(
-      ([k]) => k === key
-    );
+    const existingKeyIndex = this.internalIndexOfKey(key);
     if (existingKeyIndex < 0) return;
-    const value = this.values[hashedKey]?.[existingKeyIndex][1];
 
+    const value = this.values[hashedKey]?.[existingKeyIndex][1];
     this.values[hashedKey] = this.values[hashedKey]
       .slice(0, existingKeyIndex)
       .concat(this.values[hashedKey].slice(existingKeyIndex + 1));
@@ -46,15 +44,18 @@ export class HashTable {
   private store(key: string, value: unknown) {
     const hashedKey = this.hash(key);
 
-    const existingKeyIndex = this.values[hashedKey].findIndex(
-      ([k]) => k === key
-    );
+    const existingKeyIndex = this.internalIndexOfKey(key);
 
     if (existingKeyIndex >= 0) {
       this.values[hashedKey][existingKeyIndex][1] = value;
     } else {
       this.values[hashedKey].push([key, value]);
     }
+  }
+
+  private internalIndexOfKey(key: string): number {
+    const hashedKey = this.hash(key);
+    return this.values[hashedKey].findIndex(([k]) => k === key);
   }
 
   private hash(key: string): number {
