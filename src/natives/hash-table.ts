@@ -1,5 +1,5 @@
 export class HashTable {
-  private values: unknown[] = [];
+  private values: unknown[] = new Array(127);
   private count = 0;
 
   public get(key: string): unknown {
@@ -30,6 +30,10 @@ export class HashTable {
   }
 
   private hash(key: string): number {
-    return key.length;
+    let index = 0;
+    for (let i = 0; i < key.length; i++) {
+      index += key.charCodeAt(i);
+    }
+    return index % 127;
   }
 }
