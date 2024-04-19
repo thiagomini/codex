@@ -1,10 +1,10 @@
-export class Queue {
-  private readonly queue: unknown[] = [];
+export class Queue<T = unknown> {
+  private readonly queue: T[] = [];
 
-  public enqueue(value: unknown): void {
+  public enqueue(value: T): void {
     this.queue.push(value);
   }
-  public dequeue(): unknown {
+  public dequeue(): T | undefined {
     return this.queue.shift();
   }
 
