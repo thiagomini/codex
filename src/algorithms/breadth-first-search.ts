@@ -17,11 +17,7 @@ export function breadthSearch(
     const nextToCheck = neighborsToSearch.dequeue();
     if (nextToCheck === end) return true;
 
-    if (nextToCheck === undefined) {
-      continue;
-    }
-
-    const nextOutNeighbors = graph[nextToCheck] ?? [];
+    const nextOutNeighbors = graph[nextToCheck ?? ''] ?? [];
     nextOutNeighbors.forEach((n) => neighborsToSearch.enqueue(n));
   }
 
