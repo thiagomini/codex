@@ -12,13 +12,17 @@ export function breadthSearch(
   for (const n of outNeighbors) {
     neighborsToSearch.enqueue(n);
   }
+  const visited = new Set();
 
   while (neighborsToSearch.size > 0) {
     const nextToCheck = neighborsToSearch.dequeue();
+    visited.add(nextToCheck);
     if (nextToCheck === end) return true;
 
     const nextOutNeighbors = graph[nextToCheck ?? ''] ?? [];
-    nextOutNeighbors.forEach((n) => neighborsToSearch.enqueue(n));
+    nextOutNeighbors
+      .filter((n) => !visited.has(n))
+      .forEach((n) => neighborsToSearch.enqueue(n));
   }
 
   return false;

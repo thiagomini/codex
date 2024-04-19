@@ -18,4 +18,11 @@ describe('Breadth-first search', () => {
   test('returns false when there is no path between two nodes', () => {
     expect(breadthSearch(directedGraph, 'jonny', 'thom')).toBeFalse();
   });
+  test('handles circular reference', () => {
+    const circularGraph = {
+      you: ['alice'],
+      alice: ['you'],
+    };
+    expect(breadthSearch(circularGraph, 'you', 'thom')).toBeFalse();
+  });
 });
