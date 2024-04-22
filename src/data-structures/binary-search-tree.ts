@@ -16,6 +16,10 @@ export class BSTree {
     }
   }
 
+  public addMany(...values: number[]): void {
+    values.forEach((v) => this.add(v));
+  }
+
   private createNode(newValue: number, nodeToCompare: BSTNode): BSTNode {
     const isGreater = newValue > nodeToCompare.value;
 

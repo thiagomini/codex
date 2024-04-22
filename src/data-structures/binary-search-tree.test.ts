@@ -11,12 +11,13 @@ describe('Binary Search Tree (BST)', () => {
   });
 
   test('adds many new nodes', () => {
+    // Arrange
     const bst = new BSTree();
 
-    bst.add(10);
-    bst.add(3);
-    bst.add(15);
+    // Act
+    bst.addMany(10, 3, 15);
 
+    // Assert
     const root = bst.find(10);
     expect(bst.size).toBe(3);
     expect(root?.left).toBe(3);
@@ -29,6 +30,42 @@ describe('Binary Search Tree (BST)', () => {
       const leaf = bst.add(1);
       expect(leaf.isLeaf()).toBeTrue();
     });
+
+    test('a node with right child is not a leaf', () => {
+      // Arrange
+      const bst = new BSTree();
+
+      // Act
+      bst.addMany(1, 2);
+
+      // Assert
+      const root = bst.find(1);
+      expect(root?.isLeaf()).toBeFalse();
+    });
+
+    test('a node with left child is not a leaf', () => {
+      // Arrange
+      const bst = new BSTree();
+
+      // Act
+      bst.addMany(2, 1);
+
+      // Assert
+      const root = bst.find(2);
+      expect(root?.isLeaf()).toBeFalse();
+    });
+
+    test('a node with left and right children is not a leaf', () => {
+      // Arrange
+      const bst = new BSTree();
+
+      // Act
+      bst.addMany(2, 1, 3);
+
+      // Assert
+      const root = bst.find(2);
+      expect(root?.isLeaf()).toBeFalse();
+    });
   });
 
   test('find an existing node', () => {
@@ -39,6 +76,7 @@ describe('Binary Search Tree (BST)', () => {
     // Act
     const existingNode = bst.find(1);
 
+    // Assert
     expect(existingNode?.value).toBe(1);
   });
 
