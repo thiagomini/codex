@@ -80,18 +80,6 @@ describe('Binary Search Tree (BST)', () => {
     expect(existingNode?.value).toBe(1);
   });
 
-  test('find a path to a node', () => {
-    // Arrange
-    const bst = new BSTree();
-    bst.addMany(10, 3, 8, 9);
-
-    // Act
-    const pathTo9 = bst.pathTo(9);
-
-    // Assert
-    expect(pathTo9).toEqual([10, 3, 8, 9]);
-  });
-
   test('replace node', () => {
     // Arrange
     const bst = new BSTree();
@@ -103,5 +91,55 @@ describe('Binary Search Tree (BST)', () => {
     // Assert
     expect(node.value).toBe(1);
     expect(bst.size).toBe(1);
+  });
+
+  describe('find a path to node', () => {
+    test('traversing all nodes', () => {
+      // Arrange
+      const bst = new BSTree();
+      bst.addMany(10, 3, 8, 9);
+
+      // Act
+      const pathTo9 = bst.pathTo(9);
+
+      // Assert
+      expect(pathTo9).toEqual([10, 3, 8, 9]);
+    });
+
+    test('traversing half the nodes', () => {
+      // Arrange
+      const bst = new BSTree();
+      bst.addMany(10, 3, 15, 9);
+
+      // Act
+      const pathTo9 = bst.pathTo(15);
+
+      // Assert
+      expect(pathTo9).toEqual([10, 15]);
+    });
+
+    test('traversing the root node only', () => {
+      // Arrange
+      const bst = new BSTree();
+      bst.add(10);
+
+      // Act
+      const pathTo9 = bst.pathTo(10);
+
+      // Assert
+      expect(pathTo9).toEqual([10]);
+    });
+
+    test('returns empty array when there is no path', () => {
+      // Arrange
+      const bst = new BSTree();
+      bst.add(10);
+
+      // Act
+      const pathTo9 = bst.pathTo(20);
+
+      // Assert
+      expect(pathTo9).toEqual([]);
+    });
   });
 });
