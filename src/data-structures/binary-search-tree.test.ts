@@ -80,18 +80,16 @@ describe('Binary Search Tree (BST)', () => {
     expect(existingNode?.value).toBe(1);
   });
 
-  test.todo('find a path to a node', () => {
+  test('find a path to a node', () => {
     // Arrange
     const bst = new BSTree();
-    bst.add(10);
-    bst.add(3);
-    bst.add(8);
-    bst.add(9);
+    bst.addMany(10, 3, 8, 9);
 
     // Act
     const pathTo9 = bst.pathTo(9);
 
-    expect(pathTo9).toEqual([10, 8, 9]);
+    // Assert
+    expect(pathTo9).toEqual([10, 3, 8, 9]);
   });
 
   test('replace node', () => {
@@ -102,6 +100,7 @@ describe('Binary Search Tree (BST)', () => {
     // Act
     const node = bst.add(1);
 
+    // Assert
     expect(node.value).toBe(1);
     expect(bst.size).toBe(1);
   });

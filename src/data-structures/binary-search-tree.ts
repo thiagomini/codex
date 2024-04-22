@@ -35,17 +35,21 @@ export class BSTree {
       return newNode;
     }
 
-    if (isGreater && nodeToCompare.right === undefined) {
-      const newNode = new BSTNode(newValue, nodeToCompare.value);
-      this.valueToNodeMap.set(
-        nodeToCompare.value,
-        nodeToCompare.withRightChild(newValue)
-      );
-      this.valueToNodeMap.set(newValue, newNode);
-      return newNode;
+    if (isGreater) {
+      if (nodeToCompare.right === undefined) {
+        const newNode = new BSTNode(newValue, nodeToCompare.value);
+        this.valueToNodeMap.set(
+          nodeToCompare.value,
+          nodeToCompare.withRightChild(newValue)
+        );
+        this.valueToNodeMap.set(newValue, newNode);
+        return newNode;
+      } else {
+        return this.createNode(newValue, this.find(nodeToCompare.right) as BSTNode)
+      }
     }
 
-    if (!isGreater && nodeToCompare.left === undefined) {
+    if (nodeToCompare.left === undefined) {
       const newNode = new BSTNode(newValue, nodeToCompare.value);
       this.valueToNodeMap.set(
         nodeToCompare.value,
@@ -53,13 +57,31 @@ export class BSTree {
       );
       this.valueToNodeMap.set(newValue, newNode);
       return newNode;
+    } else {
+      return this.createNode(
+        newValue,
+        this.find(nodeToCompare.left) as BSTNode
+      );
     }
-
-    throw new Error('Inconsistent state: ' + this.valueToNodeMap);
   }
 
   public find(value: number) {
     return this.valueToNodeMap.get(value);
+  }
+
+  public pathTo(value: number) {
+    return this.pathToNode(value, this.find(this.rootValue as number) as BSTNode);
+  }
+
+  private pathToNode(value: number, nodeToCompare: BSTNode): number[] {
+    if (value === nodeToCompare.value) return [nodeToCompare.value]
+    if (value > nodeToCompare.value) {
+      if (nodeToCompare.right === undefined) return []
+      return [nodeToCompare.value].concat(this.pathToNode(value, this.find(nodeToCompare.right) as BSTNode))
+    } else {
+      if (nodeToCompare.left === undefined) return []
+      return [nodeToCompare.value].concat(this.pathToNode(value, this.find(nodeToCompare.left) as BSTNode))
+    }
   }
 
   public get size() {
