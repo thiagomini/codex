@@ -64,6 +64,37 @@ describe('Binary Tree', () => {
     expect(node?.left).toBe(2);
   });
 
+  test('add right and left child to a node', () => {
+    // Arrange
+    const aBinaryTree = new BinaryTree('root');
+
+    // Act
+    aBinaryTree.appendRightChildToNode('right', 'root');
+    aBinaryTree.appendLeftChildToNode('left', 'root');
+
+    // Assert
+    const root = aBinaryTree.nodeWithValue('root');
+    expect(root?.left).toBe('left');
+    expect(root?.right).toBe('right');
+  });
+
+  test('add right and left child to a level-2 node', () => {
+    // Arrange
+    const aBinaryTree = new BinaryTree('root');
+    aBinaryTree.appendLeftChildToNode('l1-left', 'root');
+
+    // Act
+    aBinaryTree.appendLeftChildToNode('l2-left', 'l1-left');
+    aBinaryTree.appendRightChildToNode('l2-right', 'l1-left');
+
+    // Assert
+    const l1Left = aBinaryTree.nodeWithValue('l1-left');
+    expect(l1Left?.parent).toBe('root');
+    expect(l1Left?.left).toBe('l2-left');
+    expect(l1Left?.right).toBe('l2-right');
+  });
+
+
   describe('leaf nodes', () => {
     test('a leaf node does not have children', () => {
       // Arrange

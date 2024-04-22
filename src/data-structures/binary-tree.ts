@@ -52,11 +52,21 @@ class Node {
     return !Boolean(this.right) && !Boolean(this.left);
   }
 
+  // Fix: it should keep left and parent values
   public withRightChild(value: NodeValue) {
-    return new Node(this.value, { right: value });
+    return new Node(this.value, {
+      right: value,
+      left: this.left,
+      parent: this.parent,
+    });
   }
 
+  // Fix: it should keep right and parent values
   public withLeftChild(value: NodeValue) {
-    return new Node(this.value, { left: value });
+    return new Node(this.value, {
+      left: value,
+      right: this.right,
+      parent: this.parent,
+    });
   }
-}
+} 
