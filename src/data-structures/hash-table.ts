@@ -8,24 +8,24 @@ const defaultHashFunction: HashFunction = (key) => {
   return index % 127;
 };
 
-export class HashTable {
+export class HashTable<T = unknown> {
   constructor(
     private readonly hashFunction: HashFunction = defaultHashFunction
   ) {}
 
-  private values: Array<[string, unknown][]> = new Array(127).fill([]);
+  private values: Array<[string, T][]> = new Array(127).fill([]);
   private count = 0;
 
-  public get(key: string): unknown {
+  public get(key: string): T | undefined {
     return this.values[this.hash(key)].find(([k]) => k === key)?.[1];
   }
 
-  public set(key: string, value: unknown) {
+  public set(key: string, value: T) {
     this.store(key, value);
     this.count++;
   }
 
-  public delete(key: string): unknown | undefined {
+  public delete(key: string): T | undefined {
     const hashedKey = this.hash(key);
     const existingKeyIndex = this.internalIndexOfKey(key);
     if (existingKeyIndex < 0) return;
@@ -41,7 +41,7 @@ export class HashTable {
     return this.count;
   }
 
-  private store(key: string, value: unknown) {
+  private store(key: string, value: T) {
     const hashedKey = this.hash(key);
 
     const existingKeyIndex = this.internalIndexOfKey(key);
