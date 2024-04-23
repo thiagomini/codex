@@ -142,4 +142,168 @@ describe('Binary Search Tree (BST)', () => {
       expect(pathTo9).toEqual([]);
     });
   });
+
+  describe('iterator', () => {
+    test('iterates an empty tree', () => {
+      // Arrange
+      const aTree = new BSTree();
+
+      // Act
+      const asArray = [...aTree];
+
+      // Assert
+      expect(asArray).toEqual([]);
+    });
+
+    test('iterates a root-only tree', () => {
+      // Arrange
+      const aTree = new BSTree();
+      aTree.add(1);
+
+      // Act
+      const asArray = [...aTree];
+
+      // Assert
+      expect(asArray).toEqual([
+        expect.objectContaining({
+          value: 1,
+          left: undefined,
+          right: undefined,
+        }),
+      ]);
+    });
+    test('iterates a 1-child-left tree', () => {
+      // Arrange
+      const aTree = new BSTree();
+      aTree.add(1);
+      aTree.add(0);
+
+      // Act
+      const asArray = [...aTree];
+
+      // Assert
+      expect(asArray).toEqual([
+        expect.objectContaining({
+          value: 1,
+          left: 0,
+          right: undefined,
+          parent: undefined,
+        }),
+        expect.objectContaining({
+          value: 0,
+          left: undefined,
+          right: undefined,
+          parent: 1,
+        }),
+      ]);
+    });
+    test('iterates a 1-child-right tree', () => {
+      // Arrange
+      const aTree = new BSTree();
+      aTree.add(1);
+      aTree.add(2);
+
+      // Act
+      const asArray = [...aTree];
+
+      // Assert
+      expect(asArray).toEqual([
+        expect.objectContaining({ value: 1, left: undefined, right: 2 }),
+        expect.objectContaining({
+          value: 2,
+          left: undefined,
+          right: undefined,
+          parent: 1,
+        }),
+      ]);
+    });
+    test('iterates a subtree with balancing factor of -2', () => {
+      // Arrange
+      const aTree = new BSTree();
+      aTree.add(4);
+      aTree.add(3);
+      aTree.add(5);
+      aTree.add(1);
+      aTree.add(0);
+
+      // Act
+      const asArray = [...aTree];
+
+      // Assert
+      expect(asArray).toEqual([
+        expect.objectContaining({ value: 4, left: 3, right: 5 }),
+        expect.objectContaining({
+          value: 3,
+          left: 1,
+          right: undefined,
+          parent: 4,
+        }),
+        expect.objectContaining({
+          value: 1,
+          left: 0,
+          right: undefined,
+          parent: 3,
+        }),
+        expect.objectContaining({
+          value: 0,
+          left: undefined,
+          right: undefined,
+          parent: 1,
+        }),
+        expect.objectContaining({
+          value: 5,
+          left: undefined,
+          right: undefined,
+          parent: 4,
+        }),
+      ]);
+    });
+    test('iterates a subtree with balancing factor of +2', () => {
+      // Arrange
+      const aTree = new BSTree();
+      aTree.add(4);
+      aTree.add(3);
+      aTree.add(5);
+      aTree.add(6);
+      aTree.add(7);
+
+      // Act
+      const asArray = [...aTree];
+
+      // Assert
+      expect(asArray).toEqual([
+        expect.objectContaining({
+          value: 4,
+          left: 3,
+          right: 5,
+          parent: undefined,
+        }),
+        expect.objectContaining({
+          value: 3,
+          left: undefined,
+          right: undefined,
+          parent: 4,
+        }),
+        expect.objectContaining({
+          value: 5,
+          left: undefined,
+          right: 6,
+          parent: 4,
+        }),
+        expect.objectContaining({
+          value: 6,
+          left: undefined,
+          right: 7,
+          parent: 5,
+        }),
+        expect.objectContaining({
+          value: 7,
+          left: undefined,
+          right: undefined,
+          parent: 6,
+        }),
+      ]);
+    });
+  });
+
 });
