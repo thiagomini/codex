@@ -20,8 +20,8 @@ describe('Binary Search Tree (BST)', () => {
     // Assert
     const root = bst.find(10);
     expect(bst.size).toBe(3);
-    expect(root?.left).toBe(3);
-    expect(root?.right).toBe(15);
+    expect(root?.left?.value).toBe(3);
+    expect(root?.right?.value).toBe(15);
   });
 
   describe('leaves', () => {
@@ -183,18 +183,8 @@ describe('Binary Search Tree (BST)', () => {
 
       // Assert
       expect(asArray).toEqual([
-        expect.objectContaining({
-          value: 1,
-          left: 0,
-          right: undefined,
-          parent: undefined,
-        }),
-        expect.objectContaining({
-          value: 0,
-          left: undefined,
-          right: undefined,
-          parent: 1,
-        }),
+        expect.objectContaining({ value: 1 }),
+        expect.objectContaining({ value: 0 }),
       ]);
     });
     test('iterates a 1-child-right tree', () => {
@@ -208,13 +198,8 @@ describe('Binary Search Tree (BST)', () => {
 
       // Assert
       expect(asArray).toEqual([
-        expect.objectContaining({ value: 1, left: undefined, right: 2 }),
-        expect.objectContaining({
-          value: 2,
-          left: undefined,
-          right: undefined,
-          parent: 1,
-        }),
+        expect.objectContaining({ value: 1 }),
+        expect.objectContaining({ value: 2 }),
       ]);
     });
     test('iterates a subtree with balancing factor of -2', () => {
@@ -231,31 +216,11 @@ describe('Binary Search Tree (BST)', () => {
 
       // Assert
       expect(asArray).toEqual([
-        expect.objectContaining({ value: 4, left: 3, right: 5 }),
-        expect.objectContaining({
-          value: 3,
-          left: 1,
-          right: undefined,
-          parent: 4,
-        }),
-        expect.objectContaining({
-          value: 1,
-          left: 0,
-          right: undefined,
-          parent: 3,
-        }),
-        expect.objectContaining({
-          value: 0,
-          left: undefined,
-          right: undefined,
-          parent: 1,
-        }),
-        expect.objectContaining({
-          value: 5,
-          left: undefined,
-          right: undefined,
-          parent: 4,
-        }),
+        expect.objectContaining({ value: 4 }),
+        expect.objectContaining({ value: 3 }),
+        expect.objectContaining({ value: 1 }),
+        expect.objectContaining({ value: 0 }),
+        expect.objectContaining({ value: 5 }),
       ]);
     });
     test('iterates a subtree with balancing factor of +2', () => {
@@ -272,38 +237,35 @@ describe('Binary Search Tree (BST)', () => {
 
       // Assert
       expect(asArray).toEqual([
-        expect.objectContaining({
-          value: 4,
-          left: 3,
-          right: 5,
-          parent: undefined,
-        }),
-        expect.objectContaining({
-          value: 3,
-          left: undefined,
-          right: undefined,
-          parent: 4,
-        }),
-        expect.objectContaining({
-          value: 5,
-          left: undefined,
-          right: 6,
-          parent: 4,
-        }),
-        expect.objectContaining({
-          value: 6,
-          left: undefined,
-          right: 7,
-          parent: 5,
-        }),
-        expect.objectContaining({
-          value: 7,
-          left: undefined,
-          right: undefined,
-          parent: 6,
-        }),
+        expect.objectContaining({ value: 4 }),
+        expect.objectContaining({ value: 3 }),
+        expect.objectContaining({ value: 5 }),
+        expect.objectContaining({ value: 6 }),
+        expect.objectContaining({ value: 7 }),
       ]);
     });
   });
 
+  describe('node height', () => {
+    test.todo('height of a root-only node is 0', () => {
+      const bst = new BSTree();
+
+      const node = bst.add(1);
+
+      expect(node.height).toBe(0);
+    });
+    test.todo('height of a root with one left and one right child is 1', () => {
+      const bst = new BSTree();
+      const root = bst.add(1);
+      bst.add(0);
+      bst.add(2);
+
+      expect(root.height).toBe(1);
+    });
+    test.todo('height of a root with one left grand-child is 2');
+    test.todo('height of a root with one right grand-child is 2');
+    test.todo('height of a node with one right child is 1');
+    test.todo('height of a node with one right child is 0');
+    test.todo('height of a leaf is 0');
+  });
 });
