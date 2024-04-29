@@ -8,8 +8,8 @@ export class PriorityQueue<T = unknown> {
     this.queue.sort((a, b) => a.priority - b.priority);
   }
 
-  public dequeue(): T | undefined {
-    return this.queue.shift()?.value;
+  public dequeue(): { value: T; priority: number } | undefined {
+    return this.queue.shift();
   }
 
   public get size() {

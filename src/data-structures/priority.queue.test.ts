@@ -5,7 +5,7 @@ describe('Priority Queue', () => {
   test('enqueues and dequeues an element', () => {
     const queue = new PriorityQueue();
     queue.enqueue('A', 1);
-    expect(queue.dequeue()).toBe('A');
+    expect(queue.dequeue()).toEqual({ value: 'A', priority: 1 });
   });
 
   test('dequeues elements in priority order', () => {
@@ -14,9 +14,9 @@ describe('Priority Queue', () => {
     queue.enqueue('B', 1);
     queue.enqueue('C', 2);
 
-    expect(queue.dequeue()).toBe('B');
-    expect(queue.dequeue()).toBe('C');
-    expect(queue.dequeue()).toBe('A');
+    expect(queue.dequeue()).toEqual({ value: 'B', priority: 1 });
+    expect(queue.dequeue()).toEqual({ value: 'C', priority: 2 });
+    expect(queue.dequeue()).toEqual({ value: 'A', priority: 3 });
   });
 
   test('handles collision in FIFO order', () => {
@@ -24,8 +24,8 @@ describe('Priority Queue', () => {
     queue.enqueue('A', 1);
     queue.enqueue('B', 1);
 
-    expect(queue.dequeue()).toBe('A');
-    expect(queue.dequeue()).toBe('B');
+    expect(queue.dequeue()).toEqual({ value: 'A', priority: 1 });
+    expect(queue.dequeue()).toEqual({ value: 'B', priority: 1 });
   });
 
   test('maintain order of old values', () => {
@@ -36,9 +36,9 @@ describe('Priority Queue', () => {
     queue.dequeue(); // Removes A
     queue.enqueue('D', 5);
 
-    expect(queue.dequeue()).toBe('D');
-    expect(queue.dequeue()).toBe('B');
-    expect(queue.dequeue()).toBe('C');
+    expect(queue.dequeue()).toEqual({ value: 'D', priority: 5 });
+    expect(queue.dequeue()).toEqual({ value: 'B', priority: 20 });
+    expect(queue.dequeue()).toEqual({ value: 'C', priority: 20 });
   });
 
   test('dequeues undefined for an empty queue', () => {
