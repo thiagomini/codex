@@ -285,8 +285,7 @@ describe('Binary Search Tree (BST)', () => {
             9
     */
       const bst = new BSTree();
-      const root = bst.add(6);
-      bst.addMany(3, 8, 1, 4, 7, 10, 9);
+      bst.addMany(6, 3, 8, 1, 4, 7, 10, 9);
 
       expect(bst.find(6)?.height).toBe(3);
       expect(bst.find(3)?.height).toBe(1);
