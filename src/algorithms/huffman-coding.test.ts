@@ -14,4 +14,13 @@ describe('Huffman Coding', () => {
       B: '100',
     });
   });
+
+  test('decodes an encoded string', () => {
+    const plainString = 'BCAADDDCCACACAC'; // 8 bits * 15 characters = 120 bits;
+    const encodedTree = huffmanEncode(plainString);
+
+    expect(encodedTree.decode()).toEqual(
+      '100 0 11 11 101 101 101 0 0 11 0 11 0 11 0'
+    );
+  });
 });

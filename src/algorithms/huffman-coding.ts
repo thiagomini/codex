@@ -27,6 +27,14 @@ export function huffmanEncode(string: string) {
       const charCodes: Record<string, string> = calculateCodes(tree, root);
       return charCodes;
     },
+    decode() {
+      const tree = this.toObject();
+      let finalString = '';
+      for (const char of string) {
+        finalString += tree[char] + ' ';
+      }
+      return finalString.trim();
+    },
   };
 }
 
