@@ -247,14 +247,14 @@ describe('Binary Search Tree (BST)', () => {
   });
 
   describe('node height', () => {
-    test.todo('height of a root-only node is 0', () => {
+    test('height of a root-only node is 0', () => {
       const bst = new BSTree();
 
       const node = bst.add(1);
 
       expect(node.height).toBe(0);
     });
-    test.todo('height of a root with one left and one right child is 1', () => {
+    test('height of a root with one left and one right child is 1', () => {
       const bst = new BSTree();
       const root = bst.add(1);
       bst.add(0);
@@ -262,10 +262,40 @@ describe('Binary Search Tree (BST)', () => {
 
       expect(root.height).toBe(1);
     });
-    test.todo('height of a root with one left grand-child is 2');
-    test.todo('height of a root with one right grand-child is 2');
-    test.todo('height of a node with one right child is 1');
-    test.todo('height of a node with one right child is 0');
-    test.todo('height of a leaf is 0');
+    test('height of a root with one left grand-child is 2', () => {
+      const bst = new BSTree();
+      const root = bst.add(1);
+      bst.add(0);
+      bst.add(-1);
+      bst.add(2);
+
+      expect(root.height).toBe(2);
+    });
+
+    test('height of each node is the max(left, right) + 1', () => {
+      // Tree representation:
+      /**
+        6
+       / \
+      /   \
+     3     8
+    / \   / \
+   1   4 7   10
+             /
+            9
+    */
+      const bst = new BSTree();
+      const root = bst.add(6);
+      bst.addMany(3, 8, 1, 4, 7, 10, 9);
+
+      expect(bst.find(6)?.height).toBe(3);
+      expect(bst.find(3)?.height).toBe(1);
+      expect(bst.find(8)?.height).toBe(2);
+      expect(bst.find(1)?.height).toBe(0);
+      expect(bst.find(4)?.height).toBe(0);
+      expect(bst.find(7)?.height).toBe(0);
+      expect(bst.find(10)?.height).toBe(1);
+      expect(bst.find(9)?.height).toBe(0);
+    });
   });
 });

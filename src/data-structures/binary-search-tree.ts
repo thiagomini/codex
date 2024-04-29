@@ -57,9 +57,9 @@ export class BSTree {
     if (nodeToCompare.isLeaf()) {
       const newNode = new BSTNode(newValue, nodeToCompare);
       if (isGreater) {
-        nodeToCompare.right = newNode;
+        nodeToCompare.appendRightChild(newNode);
       } else {
-        nodeToCompare.left = newNode;
+        nodeToCompare.appendLeftChild(newNode);
       }
 
       return newNode;
@@ -68,7 +68,7 @@ export class BSTree {
     if (isGreater) {
       if (nodeToCompare.right === undefined) {
         const newNode = new BSTNode(newValue, nodeToCompare);
-        nodeToCompare.right = newNode;
+        nodeToCompare.appendRightChild(newNode);
         return newNode;
       } else {
         return this.createNode(newValue, nodeToCompare.right as BSTNode);
@@ -121,6 +121,8 @@ export class BSTree {
 }
 
 export class BSTNode {
+  private _height: number = 0;
+
   constructor(
     public readonly value: number,
     public readonly parent?: BSTNode,
@@ -128,8 +130,41 @@ export class BSTNode {
     public right?: BSTNode
   ) {}
 
+  get height() {
+    return this._height;
+  }
+
   public isLeaf() {
     return !Boolean(this.left) && !Boolean(this.right);
+  }
+
+  public appendLeftChild(node: BSTNode) {
+    this.updateHeight('left');
+    this.left = node;
+  }
+
+  public appendRightChild(node: BSTNode) {
+    this.updateHeight('right');
+    this.right = node;
+  }
+
+  private updateHeight(appendedNode: 'left' | 'right') {
+    const leftChildHeight = this.left?.height ?? 0;
+    const rightChildHeight = this.right?.height ?? 0;
+
+    if (appendedNode === 'left') {
+      if (leftChildHeight >= rightChildHeight) {
+        this._height = leftChildHeight + 1;
+      }
+    } else {
+      if (rightChildHeight >= leftChildHeight) {
+        this._height = rightChildHeight + 1;
+      }
+    }
+
+    const typeOfChild = this.parent?.left === this ? 'left' : 'right';
+
+    this.parent?.updateHeight(typeOfChild);
   }
 
   public isGreaterThan(another: BSTNode) {
