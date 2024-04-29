@@ -175,8 +175,7 @@ describe('Binary Search Tree (BST)', () => {
     test('iterates a 1-child-left tree', () => {
       // Arrange
       const aTree = new BSTree();
-      aTree.add(1);
-      aTree.add(0);
+      aTree.addMany(1, 0);
 
       // Act
       const asArray = [...aTree];
@@ -190,8 +189,7 @@ describe('Binary Search Tree (BST)', () => {
     test('iterates a 1-child-right tree', () => {
       // Arrange
       const aTree = new BSTree();
-      aTree.add(1);
-      aTree.add(2);
+      aTree.addMany(1, 2);
 
       // Act
       const asArray = [...aTree];
@@ -205,11 +203,7 @@ describe('Binary Search Tree (BST)', () => {
     test('iterates a subtree with balancing factor of -2', () => {
       // Arrange
       const aTree = new BSTree();
-      aTree.add(4);
-      aTree.add(3);
-      aTree.add(5);
-      aTree.add(1);
-      aTree.add(0);
+      aTree.addMany(4, 3, 5, 1, 0);
 
       // Act
       const asArray = [...aTree];
@@ -226,11 +220,7 @@ describe('Binary Search Tree (BST)', () => {
     test('iterates a subtree with balancing factor of +2', () => {
       // Arrange
       const aTree = new BSTree();
-      aTree.add(4);
-      aTree.add(3);
-      aTree.add(5);
-      aTree.add(6);
-      aTree.add(7);
+      aTree.addMany(4, 3, 5, 6, 7);
 
       // Act
       const asArray = [...aTree];
@@ -257,17 +247,14 @@ describe('Binary Search Tree (BST)', () => {
     test('height of a root with one left and one right child is 1', () => {
       const bst = new BSTree();
       const root = bst.add(1);
-      bst.add(0);
-      bst.add(2);
+      bst.addMany(0, 2);
 
       expect(root.height).toBe(1);
     });
     test('height of a root with one left grand-child is 2', () => {
       const bst = new BSTree();
       const root = bst.add(1);
-      bst.add(0);
-      bst.add(-1);
-      bst.add(2);
+      bst.addMany(0, -1, 2);
 
       expect(root.height).toBe(2);
     });
