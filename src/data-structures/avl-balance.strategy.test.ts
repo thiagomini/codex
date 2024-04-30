@@ -10,10 +10,10 @@ describe('AVL Balance Strategy', () => {
       bst.addMany(2, 1, 0);
 
       // Act
-      balance(bst);
+      balance(bst, 2);
 
-      // Assert
       const root = bst.root;
+      // Assert
       expect(root?.isRoot()).toBeTrue();
       expect(root).toEqual(node({ value: 1, left: 0, right: 2 }));
     });
