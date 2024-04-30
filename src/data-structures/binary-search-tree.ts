@@ -1,7 +1,7 @@
 import { Queue } from './queue';
 
 export class BSTree {
-  private root?: BSTNode;
+  public root?: BSTNode;
   private valuesSet: Set<number> = new Set();
 
   public add(value: number): BSTNode {
@@ -169,5 +169,21 @@ export class BSTNode {
 
   public isGreaterThan(another: BSTNode) {
     return this.value > another.value;
+  }
+
+  public isRoot() {
+    return !Boolean(this.parent);
+  }
+
+  public withLeftChild(child: BSTNode) {
+    return new BSTNode(this.value, this.parent, child, this.right);
+  }
+
+  public withRightChild(child: BSTNode) {
+    return new BSTNode(this.value, this.parent, this.left, child);
+  }
+
+  public asRoot() {
+    return new BSTNode(this.value, undefined, this.left, this.right);
   }
 }
