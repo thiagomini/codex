@@ -12,12 +12,23 @@ describe('AVL Balance Strategy', () => {
       // Act
       balance(bst, 2);
 
-      const root = bst.root;
       // Assert
+      const root = bst.root;
       expect(root?.isRoot()).toBeTrue();
       expect(root).toEqual(node({ value: 1, left: 0, right: 2 }));
     });
-    test.todo('perform right-rotation when balance factor is +2');
+    test('perform right-rotation when balance factor is +2', () => {
+      // Arrange
+      const bst = new BSTree();
+      bst.addMany(2, 1, 3, 4);
+
+      // Act
+      balance(bst, 2);
+
+      // Assert
+      const root = bst.root;
+      expect(root).toEqual(node({ value: 3, left: 2, right: 4 }));
+    });
   });
 });
 
