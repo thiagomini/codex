@@ -1,4 +1,4 @@
-import type { BSTree } from './binary-search-tree';
+import type { BSTNode, BSTree } from './binary-search-tree';
 
 export function balance(tree: BSTree, nodeValue: number): void {
   const nodeToBalance = tree.find(nodeValue);
@@ -7,30 +7,22 @@ export function balance(tree: BSTree, nodeValue: number): void {
   const leftMost = nodeToBalance?.left?.left;
   const rightMost = nodeToBalance?.right?.right;
 
+  let nodeUpdated: BSTNode | undefined;
+
   if (nodeToBalance?.left && leftMost) {
-    const nodeUpdated = nodeToBalance.left
+    nodeUpdated = nodeToBalance.left
       .withRightChild(nodeToBalance)
       .withLeftChild(leftMost)
       .asRoot();
-
-    if (parent && typeOfChild === 'left') {
-      parent.left = nodeUpdated;
-    } else if (parent) {
-      parent.right = nodeUpdated;
-    } else {
-      tree.root = nodeUpdated;
-    }
   } else if (nodeToBalance?.right && rightMost) {
-    const nodeUpdated = nodeToBalance.right
-      .withLeftChild(nodeToBalance)
-      .withRightChild(rightMost);
+    nodeUpdated = nodeToBalance.right.withLeftChild(nodeToBalance);
+  }
 
-    if (parent && typeOfChild === 'left') {
-      parent.left = nodeUpdated;
-    } else if (parent) {
-      parent.right = nodeUpdated;
-    } else {
-      tree.root = nodeUpdated;
-    }
+  if (parent && typeOfChild === 'left') {
+    parent.left = nodeUpdated;
+  } else if (parent) {
+    parent.right = nodeUpdated;
+  } else {
+    tree.root = nodeUpdated;
   }
 }
