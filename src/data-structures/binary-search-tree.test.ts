@@ -284,4 +284,59 @@ describe('Binary Search Tree (BST)', () => {
       expect(bst.find(9)?.height).toBe(0);
     });
   });
+
+  describe('node balance factor', () => {
+    test('balance factor of a root-only node is 0', () => {
+      const bst = new BSTree();
+
+      const node = bst.add(1);
+
+      expect(node.balanceFactor()).toBe(0);
+    });
+    test('balance factor of a root with one left and one right child is 0', () => {
+      const bst = new BSTree();
+      const root = bst.add(1);
+      bst.addMany(0, 2);
+
+      expect(root.balanceFactor()).toBe(0);
+    });
+    test('balance factor of a root with one left grand-child is -2', () => {
+      const bst = new BSTree();
+      bst.addMany(2, 1, 0);
+
+      expect(bst.root?.balanceFactor()).toBe(-2);
+    });
+
+    test('balance factor of a root with one right grand-child is +2', () => {
+      const bst = new BSTree();
+      bst.addMany(0, 1, 2);
+
+      expect(bst.root?.balanceFactor()).toBe(2);
+    });
+
+    test('balance factor of each node is the h(right) - h(left)', () => {
+      // Tree representation:
+      /**
+        6
+       / \
+      /   \
+     3     8
+    / \   / \
+   1   4 7   10
+             /
+            9
+    */
+      const bst = new BSTree();
+      bst.addMany(6, 3, 8, 1, 4, 7, 10, 9);
+
+      expect(bst.find(6)?.balanceFactor()).toBe(1);
+      expect(bst.find(3)?.balanceFactor()).toBe(0);
+      expect(bst.find(8)?.balanceFactor()).toBe(1);
+      expect(bst.find(1)?.balanceFactor()).toBe(0);
+      expect(bst.find(4)?.balanceFactor()).toBe(0);
+      expect(bst.find(7)?.balanceFactor()).toBe(0);
+      expect(bst.find(10)?.balanceFactor()).toBe(-1);
+      expect(bst.find(9)?.balanceFactor()).toBe(0);
+    });
+  });
 });

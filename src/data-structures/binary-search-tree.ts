@@ -1,5 +1,3 @@
-import { Queue } from './queue';
-
 export class BSTree {
   public root?: BSTNode;
   private valuesSet: Set<number> = new Set();
@@ -185,5 +183,12 @@ export class BSTNode {
 
   public asRoot() {
     return new BSTNode(this.value, undefined, this.left, this.right);
+  }
+
+  public balanceFactor(): number {
+    const leftValue = this.left ? this.left.height + 1 : 0;
+    const rightValue = this.right ? this.right.height + 1 : 0;
+
+    return rightValue - leftValue;
   }
 }
