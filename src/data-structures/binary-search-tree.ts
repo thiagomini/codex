@@ -90,8 +90,6 @@ export class BSTree {
 }
 
 export class BSTNode {
-  private _height: number = 0;
-
   constructor(
     public readonly value: number,
     public readonly parent?: BSTNode,
