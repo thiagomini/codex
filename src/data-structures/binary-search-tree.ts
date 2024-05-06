@@ -128,8 +128,12 @@ export class BSTNode {
     public right?: BSTNode
   ) {}
 
-  get height() {
-    return this._height;
+  get height(): number {
+    if (this.isLeaf()) {
+      return 0;
+    } else {
+      return Math.max(this.left?.height ?? 0, this.right?.height ?? 0) + 1;
+    }
   }
 
   public isLeaf() {
@@ -137,32 +141,11 @@ export class BSTNode {
   }
 
   public appendLeftChild(node: BSTNode) {
-    this.updateHeight('left');
     this.left = node;
   }
 
   public appendRightChild(node: BSTNode) {
-    this.updateHeight('right');
     this.right = node;
-  }
-
-  private updateHeight(appendedNode: 'left' | 'right') {
-    const leftChildHeight = this.left?.height ?? 0;
-    const rightChildHeight = this.right?.height ?? 0;
-
-    if (appendedNode === 'left') {
-      if (leftChildHeight >= rightChildHeight) {
-        this._height = leftChildHeight + 1;
-      }
-    } else {
-      if (rightChildHeight >= leftChildHeight) {
-        this._height = rightChildHeight + 1;
-      }
-    }
-
-    const typeOfChild = this.parent?.left === this ? 'left' : 'right';
-
-    this.parent?.updateHeight(typeOfChild);
   }
 
   public isGreaterThan(another: BSTNode) {
