@@ -151,18 +151,6 @@ export class BSTNode {
     return !Boolean(this.parent);
   }
 
-  public withLeftChild(child: BSTNode) {
-    return new BSTNode(this.value, this.parent, child, this.right);
-  }
-
-  public withRightChild(child: BSTNode) {
-    return new BSTNode(this.value, this.parent, this.left, child);
-  }
-
-  public asRoot() {
-    return new BSTNode(this.value, undefined, this.left, this.right);
-  }
-
   public balanceFactor(): number {
     const leftValue = this.left ? this.left.height + 1 : 0;
     const rightValue = this.right ? this.right.height + 1 : 0;
