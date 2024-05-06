@@ -50,36 +50,7 @@ export class BSTree {
 
   private createNode(newValue: number, nodeToCompare: BSTNode): BSTNode {
     if (newValue === nodeToCompare.value) return nodeToCompare;
-    const isGreater = newValue > nodeToCompare.value;
-
-    if (nodeToCompare.isLeaf()) {
-      const newNode = new BSTNode(newValue, nodeToCompare);
-      if (isGreater) {
-        nodeToCompare.appendRightChild(newNode);
-      } else {
-        nodeToCompare.appendLeftChild(newNode);
-      }
-
-      return newNode;
-    }
-
-    if (isGreater) {
-      if (nodeToCompare.right === undefined) {
-        const newNode = new BSTNode(newValue, nodeToCompare);
-        nodeToCompare.appendRightChild(newNode);
-        return newNode;
-      } else {
-        return this.createNode(newValue, nodeToCompare.right as BSTNode);
-      }
-    }
-
-    if (nodeToCompare.left === undefined) {
-      const newNode = new BSTNode(newValue, nodeToCompare);
-      nodeToCompare.left = newNode;
-      return newNode;
-    } else {
-      return this.createNode(newValue, nodeToCompare.left as BSTNode);
-    }
+    return nodeToCompare.appendChild(newValue);
   }
 
   public find(value: number) {
@@ -140,12 +111,38 @@ export class BSTNode {
     return !Boolean(this.left) && !Boolean(this.right);
   }
 
-  public appendLeftChild(node: BSTNode) {
-    this.left = node;
+  public appendChild(value: number): BSTNode {
+    if (value > this.value) {
+      return this.appendRightChild(value);
+    } else {
+      return this.appendLeftChild(value);
+    }
   }
 
-  public appendRightChild(node: BSTNode) {
-    this.right = node;
+  private appendRightChild(value: number): BSTNode {
+    if (this.hasRightChild()) {
+      return this.right.appendChild(value);
+    } else {
+      this.right = new BSTNode(value, this);
+      return this.right;
+    }
+  }
+
+  private appendLeftChild(value: number): BSTNode {
+    if (this.hasLeftChild()) {
+      return this.left.appendChild(value);
+    } else {
+      this.left = new BSTNode(value, this);
+      return this.left;
+    }
+  }
+
+  public hasRightChild(): this is BSTNode & { right: BSTNode } {
+    return this.right !== undefined;
+  }
+
+  public hasLeftChild(): this is BSTNode & { left: BSTNode } {
+    return this.left !== undefined;
   }
 
   public isGreaterThan(another: BSTNode) {
