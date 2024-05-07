@@ -24,6 +24,7 @@ export class BSTree {
       const typeOfNode = nodeToDelete.typeOfNode();
       if (typeOfNode === 'root') {
         if (this.size === 1) {
+          this.valuesSet.delete(value);
           return (this.root = undefined);
         }
         let newRootNode: BSTNode;

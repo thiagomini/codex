@@ -143,6 +143,7 @@ describe('Binary Search Tree (BST)', () => {
 
         // Assert
         expect(bst.root).toBeUndefined();
+        expect(bst.size).toBe(0);
       });
       test('from a left-only tree', () => {
         // Arrange
@@ -154,6 +155,7 @@ describe('Binary Search Tree (BST)', () => {
 
         // Assert
         expect(bst.root).toEqual(node({ value: 0 }));
+        expect(bst.size).toBe(1);
       });
       test('from a right-only tree', () => {
         // Arrange
@@ -165,6 +167,7 @@ describe('Binary Search Tree (BST)', () => {
 
         // Assert
         expect(bst.root).toEqual(node({ value: 2, left: EMPTY, right: EMPTY }));
+        expect(bst.size).toBe(1);
       });
       test('promotes the maximum value from the left subtree (right leaf)', () => {
         // Arrange
@@ -185,6 +188,7 @@ describe('Binary Search Tree (BST)', () => {
         // Assert
         expect(bst.find(3)).toBeUndefined();
         expect(bst.root).toEqual(node({ value: 2, left: 1, right: 4 }));
+        expect(bst.size).toBe(4);
       });
       test('promotes the maximum value from the left subtree (left child)', () => {
         // Arrange
@@ -205,6 +209,7 @@ describe('Binary Search Tree (BST)', () => {
         // Assert
         expect(bst.find(3)).toBeUndefined();
         expect(bst.root).toEqual(node({ value: 1, left: 0, right: 4 }));
+        expect(bst.size).toBe(3);
       });
       test('promotes the minimum value from the right subtree (left leaf)', () => {
         // Arrange
@@ -225,6 +230,7 @@ describe('Binary Search Tree (BST)', () => {
         // Assert
         expect(bst.find(2)).toBeUndefined();
         expect(bst.root).toEqual(node({ value: 3, left: EMPTY, right: 4 }));
+        expect(bst.size).toBe(3);
       });
       test('promotes the minimum value from the right subtree (right child)', () => {
         // Arrange
@@ -245,7 +251,7 @@ describe('Binary Search Tree (BST)', () => {
         // Assert
         expect(bst.find(2)).toBeUndefined();
         expect(bst.root).toEqual(node({ value: 4, left: EMPTY, right: 5 }));
-        expect(bst.size).toEqual(2);
+        expect(bst.size).toBe(2);
       });
     });
   });
