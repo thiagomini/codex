@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 import { BSTree } from './binary-search-tree';
+import { EMPTY, node } from './test.utils';
 
 describe('Binary Search Tree (BST)', () => {
   test('adds a new node', () => {
@@ -22,6 +23,126 @@ describe('Binary Search Tree (BST)', () => {
     expect(bst.size).toBe(3);
     expect(root?.left?.value).toBe(3);
     expect(root?.right?.value).toBe(15);
+  });
+
+  describe('deletes an existing node', () => {
+    test('root', () => {
+      // Arrange
+      const bst = new BSTree();
+      bst.add(1);
+
+      // Act
+      bst.delete(1);
+
+      // Assert
+      expect(bst.root).toBeUndefined();
+    });
+    test('right leaf', () => {
+      // Arrange
+      const bst = new BSTree();
+      bst.addMany(1, 2);
+
+      // Act
+      bst.delete(2);
+
+      // Assert
+      expect(bst.root).toEqual(node({ value: 1 }));
+      expect(bst.root?.right).toBeUndefined();
+    });
+    test('left leaf', () => {
+      // Arrange
+      const bst = new BSTree();
+      bst.addMany(1, 0);
+
+      // Act
+      bst.delete(0);
+
+      // Assert
+      expect(bst.root).toEqual(node({ value: 1 }));
+      expect(bst.root?.left).toBeUndefined();
+    });
+    describe('given a tree with height 3 and both left and right subtrees', () => {
+      /**
+       * Tree Structure:
+       *       5
+       *     /  \
+       *    3    7
+       *   / \  / \
+       *  2  4 6   8
+       */
+      test('remove root of left subtree', () => {
+        // Arrange
+        const bst = new BSTree();
+        bst.addMany(5, 3, 7, 2, 4, 6, 8);
+
+        // Act
+        bst.delete(3);
+
+        // Assert
+        expect(bst.find(3)).toBeUndefined();
+        expect(bst.root?.left).toEqual(node({ value: 2, right: 4 }));
+      });
+      test('remove root of right subtree', () => {
+        // Arrange
+        const bst = new BSTree();
+        bst.addMany(5, 3, 7, 2, 4, 6, 8);
+
+        // Act
+        bst.delete(7);
+
+        // Assert
+        expect(bst.find(7)).toBeUndefined();
+        expect(bst.root?.right).toEqual(node({ value: 6, right: 8 }));
+      });
+      test('remove left leaf of left subtree', () => {
+        // Arrange
+        const bst = new BSTree();
+        bst.addMany(5, 3, 7, 2, 4, 6, 8);
+
+        // Act
+        bst.delete(2);
+
+        // Assert
+        expect(bst.find(2)).toBeUndefined();
+        expect(bst.find(3)).toEqual(node({ value: 3, left: EMPTY, right: 4 }));
+      });
+      test('remove right leaf of left subtree', () => {
+        // Arrange
+        const bst = new BSTree();
+        bst.addMany(5, 3, 7, 2, 4, 6, 8);
+
+        // Act
+        bst.delete(4);
+
+        // Assert
+        expect(bst.find(4)).toBeUndefined();
+        expect(bst.find(3)).toEqual(node({ value: 3, left: 2, right: EMPTY }));
+      });
+      test('remove left leaf of right subtree', () => {
+        // Arrange
+        const bst = new BSTree();
+        bst.addMany(5, 3, 7, 2, 4, 6, 8);
+
+        // Act
+        bst.delete(8);
+
+        // Assert
+        expect(bst.find(8)).toBeUndefined();
+        expect(bst.find(7)).toEqual(node({ value: 7, left: 6, right: EMPTY }));
+      });
+      test('remove right leaf of right subtree', () => {
+        // Arrange
+        const bst = new BSTree();
+        bst.addMany(5, 3, 7, 2, 4, 6, 8);
+
+        // Act
+        bst.delete(6);
+
+        // Assert
+        expect(bst.find(6)).toBeUndefined();
+        expect(bst.find(7)).toEqual(node({ value: 7, left: EMPTY, right: 8 }));
+      });
+    });
   });
 
   describe('leaves', () => {

@@ -14,6 +14,20 @@ export class BSTree {
     }
   }
 
+  public delete(value: number): void {
+    const nodeToDelete = this.find(value);
+    if (nodeToDelete) {
+      const typeOfNode = nodeToDelete.typeOfNode();
+      if (typeOfNode === 'root') {
+        this.root = undefined;
+      } else if (typeOfNode === 'left-child') {
+        nodeToDelete.parent?.deleteLeftChild();
+      } else {
+        nodeToDelete.parent?.deleteRightChild();
+      }
+    }
+  }
+
   *[Symbol.iterator]() {
     if (this.root === undefined) return;
 
@@ -53,7 +67,7 @@ export class BSTree {
     return nodeToCompare.appendChild(newValue);
   }
 
-  public find(value: number) {
+  public find(value: number): BSTNode | undefined {
     return this.findRecursive(value, this.root);
   }
 
@@ -64,7 +78,7 @@ export class BSTree {
     else return this.findRecursive(value, node.right);
   }
 
-  public pathTo(value: number) {
+  public pathTo(value: number): number[] {
     return this.pathToNode(value, this.root as BSTNode);
   }
 
@@ -156,5 +170,28 @@ export class BSTNode {
     const rightValue = this.right ? this.right.height + 1 : 0;
 
     return rightValue - leftValue;
+  }
+
+  public deleteLeftChild(): void {
+    const rightGrandChild = this.left?.right;
+    this.left = this.left?.left;
+    if (this.left) {
+      this.left.right = rightGrandChild;
+    }
+  }
+
+  public deleteRightChild(): void {
+    const rightGrandChild = this.right?.right;
+    this.right = this.right?.left;
+    if (this.right) {
+      this.right.right = rightGrandChild;
+    }
+  }
+
+  public typeOfNode(): 'root' | 'left-child' | 'right-child' {
+    if (this.isRoot()) return 'root';
+
+    const parent = this.parent;
+    return this === parent?.left ? 'left-child' : 'right-child';
   }
 }
