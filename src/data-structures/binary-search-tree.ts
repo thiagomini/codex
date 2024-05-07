@@ -2,6 +2,10 @@ export class BSTree {
   public root?: BSTNode;
   private valuesSet: Set<number> = new Set();
 
+  public addMany(...values: number[]): void {
+    values.forEach((v) => this.add(v));
+  }
+
   public add(value: number): BSTNode {
     if (this.size === 0) {
       const newNode = new BSTNode(value);
@@ -42,6 +46,18 @@ export class BSTree {
         this.valuesSet.delete(value);
       }
     }
+  }
+
+  public find(value: number): BSTNode | undefined {
+    return this.findRecursive(value, this.root);
+  }
+
+  public pathTo(value: number): number[] {
+    return this.pathToNode(value, this.root as BSTNode);
+  }
+
+  public get size() {
+    return this.valuesSet.size;
   }
 
   private findMaxFrom(subtreeRootNode?: BSTNode): BSTNode | undefined {
@@ -88,17 +104,9 @@ export class BSTree {
     }
   }
 
-  public addMany(...values: number[]): void {
-    values.forEach((v) => this.add(v));
-  }
-
   private createNode(newValue: number, nodeToCompare: BSTNode): BSTNode {
     if (newValue === nodeToCompare.value) return nodeToCompare;
     return nodeToCompare.appendChild(newValue);
-  }
-
-  public find(value: number): BSTNode | undefined {
-    return this.findRecursive(value, this.root);
   }
 
   private findRecursive(value: number, node?: BSTNode): BSTNode | undefined {
@@ -106,10 +114,6 @@ export class BSTree {
     if (value === node.value) return node;
     if (value < node.value) return this.findRecursive(value, node.left);
     else return this.findRecursive(value, node.right);
-  }
-
-  public pathTo(value: number): number[] {
-    return this.pathToNode(value, this.root as BSTNode);
   }
 
   private pathToNode(value: number, nodeToCompare?: BSTNode): number[] {
@@ -126,10 +130,6 @@ export class BSTree {
         this.pathToNode(value, nodeToCompare.left as BSTNode)
       );
     }
-  }
-
-  public get size() {
-    return this.valuesSet.size;
   }
 }
 
