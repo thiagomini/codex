@@ -19,13 +19,43 @@ export class BSTree {
     if (nodeToDelete) {
       const typeOfNode = nodeToDelete.typeOfNode();
       if (typeOfNode === 'root') {
-        this.root = undefined;
+        if (this.size === 1) {
+          return (this.root = undefined);
+        }
+        let newRootNode: BSTNode;
+        if (this.root?.left) {
+          newRootNode = this.findMaxFrom(
+            this.root?.left ?? this.root
+          ) as BSTNode;
+        } else {
+          newRootNode = this.findMinFrom(
+            this.root?.right ?? this.root
+          ) as BSTNode;
+        }
+        this.delete(newRootNode.value);
+        this.root?.updateValue(newRootNode.value);
       } else if (typeOfNode === 'left-child') {
         nodeToDelete.parent?.deleteLeftChild();
+        this.valuesSet.delete(value);
       } else {
         nodeToDelete.parent?.deleteRightChild();
+        this.valuesSet.delete(value);
       }
     }
+  }
+
+  private findMaxFrom(subtreeRootNode?: BSTNode): BSTNode | undefined {
+    if (!subtreeRootNode) return undefined;
+
+    if (subtreeRootNode.right) return this.findMaxFrom(subtreeRootNode.right);
+    return subtreeRootNode;
+  }
+
+  private findMinFrom(subtreeRootNode?: BSTNode): BSTNode | undefined {
+    if (!subtreeRootNode) return undefined;
+
+    if (subtreeRootNode.left) return this.findMaxFrom(subtreeRootNode.left);
+    return subtreeRootNode;
   }
 
   *[Symbol.iterator]() {
@@ -119,6 +149,12 @@ export class BSTNode {
     }
   }
 
+  public updateValue(newValue: number) {
+    Object.assign(this, {
+      value: newValue,
+    });
+  }
+
   public isLeaf() {
     return !Boolean(this.left) && !Boolean(this.right);
   }
@@ -174,7 +210,7 @@ export class BSTNode {
 
   public deleteLeftChild(): void {
     const rightGrandChild = this.left?.right;
-    this.left = this.left?.left;
+    this.left = this.left?.left ?? this.left?.right;
     if (this.left) {
       this.left.right = rightGrandChild;
     }
@@ -182,7 +218,7 @@ export class BSTNode {
 
   public deleteRightChild(): void {
     const rightGrandChild = this.right?.right;
-    this.right = this.right?.left;
+    this.right = this.right?.left ?? this.right?.right;
     if (this.right) {
       this.right.right = rightGrandChild;
     }

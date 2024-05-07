@@ -26,17 +26,6 @@ describe('Binary Search Tree (BST)', () => {
   });
 
   describe('deletes an existing node', () => {
-    test('root', () => {
-      // Arrange
-      const bst = new BSTree();
-      bst.add(1);
-
-      // Act
-      bst.delete(1);
-
-      // Assert
-      expect(bst.root).toBeUndefined();
-    });
     test('right leaf', () => {
       // Arrange
       const bst = new BSTree();
@@ -141,6 +130,122 @@ describe('Binary Search Tree (BST)', () => {
         // Assert
         expect(bst.find(6)).toBeUndefined();
         expect(bst.find(7)).toEqual(node({ value: 7, left: EMPTY, right: 8 }));
+      });
+    });
+    describe('root', () => {
+      test('from a root-only tree', () => {
+        // Arrange
+        const bst = new BSTree();
+        bst.add(1);
+
+        // Act
+        bst.delete(1);
+
+        // Assert
+        expect(bst.root).toBeUndefined();
+      });
+      test('from a left-only tree', () => {
+        // Arrange
+        const bst = new BSTree();
+        bst.addMany(1, 0);
+
+        // Act
+        bst.delete(1);
+
+        // Assert
+        expect(bst.root).toEqual(node({ value: 0 }));
+      });
+      test('from a right-only tree', () => {
+        // Arrange
+        const bst = new BSTree();
+        bst.addMany(1, 2);
+
+        // Act
+        bst.delete(1);
+
+        // Assert
+        expect(bst.root).toEqual(node({ value: 2, left: EMPTY, right: EMPTY }));
+      });
+      test('promotes the maximum value from the left subtree (right leaf)', () => {
+        // Arrange
+        /**
+         * Tree Structure:
+         *      3
+         *     / \
+         *    1   4
+         *   / \
+         *  0   2 <-- this will be promoted to root
+         */
+        const bst = new BSTree();
+        bst.addMany(3, 1, 4, 0, 2);
+
+        // Act
+        bst.delete(3);
+
+        // Assert
+        expect(bst.find(3)).toBeUndefined();
+        expect(bst.root).toEqual(node({ value: 2, left: 1, right: 4 }));
+      });
+      test('promotes the maximum value from the left subtree (left child)', () => {
+        // Arrange
+        /**
+         * Tree Structure:
+         *      3
+         *     / \
+         *--> 1   4
+         *   /
+         *  0
+         */
+        const bst = new BSTree();
+        bst.addMany(3, 1, 4, 0);
+
+        // Act
+        bst.delete(3);
+
+        // Assert
+        expect(bst.find(3)).toBeUndefined();
+        expect(bst.root).toEqual(node({ value: 1, left: 0, right: 4 }));
+      });
+      test('promotes the minimum value from the right subtree (left leaf)', () => {
+        // Arrange
+        /**
+         * Tree Structure:
+         *      2
+         *       \
+         *        4
+         *       / \
+         * -->  3   5
+         */
+        const bst = new BSTree();
+        bst.addMany(2, 4, 3, 5);
+
+        // Act
+        bst.delete(2);
+
+        // Assert
+        expect(bst.find(2)).toBeUndefined();
+        expect(bst.root).toEqual(node({ value: 3, left: EMPTY, right: 4 }));
+      });
+      test('promotes the minimum value from the right subtree (right child)', () => {
+        // Arrange
+        /**
+         * Tree Structure:
+         *      2
+         *       \
+         *   -->  4
+         *         \
+         *          5
+         */
+        const bst = new BSTree();
+        bst.addMany(2, 4, 5);
+
+        // Act
+        bst.delete(2);
+
+        // Assert
+        expect(bst.find(2)).toBeUndefined();
+        expect(bst.root).toEqual(node({ value: 4, left: EMPTY, right: 5 }));
+        expect(bst.size).toEqual(2);
       });
     });
   });
