@@ -25,6 +25,18 @@ describe('AVL Tree', () => {
       const root = avl.root;
       expect(root).toEqual(node({ value: 3, left: 2, right: 4, height: 1 }));
     });
+
+    test('perform right-rotation for LEFT-RIGHT case', () => {
+      // Arrange
+      const avl = new AVLTree();
+
+      // Act
+      avl.addMany(3, 1, 2);
+
+      // Assert
+      const root = avl.root;
+      expect(root).toEqual(node({ value: 2, left: 1, right: 3, height: 1 }));
+    });
   });
 });
 
