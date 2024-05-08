@@ -13,10 +13,10 @@ export function dijkstra(
   type WeightMap = Map<string, number>;
   const graphMap = new Map<Node, WeightMap>();
 
-  for (const [from, to, cost] of graph) {
+  graph.forEach(([from, to, cost]) => {
     if (!graphMap.has(from)) graphMap.set(from, new Map());
     graphMap.get(from)?.set(to, cost);
-  }
+  });
   graphMap.set(finish, new Map());
 
   const currentCostMap = new Map<string, number>(); // Total cost from start up to node
@@ -29,11 +29,9 @@ export function dijkstra(
   }
 
   const parentsOfNodesMap = new Map<string, string>();
-  for (const [from, to] of graph) {
-    if (from === start) {
-      parentsOfNodesMap.set(to, from);
-    }
-  }
+  graph
+    .filter(([from]) => from === start)
+    .forEach(([from, to]) => parentsOfNodesMap.set(to, from));
 
   const processedNodes = new Set<string>();
 
@@ -57,7 +55,7 @@ export function dijkstra(
 
   return {
     cost: currentCostMap.get(finish) as number,
-    path: getPathToFinish(parentsOfNodesMap, finish),
+    path: pathToFinish(parentsOfNodesMap, finish),
   };
 }
 
@@ -76,10 +74,7 @@ function findLowestCostNode(
   return result;
 }
 
-function getPathToFinish(
-  parentsOfNodesMap: Map<string, string>,
-  finish: string
-) {
+function pathToFinish(parentsOfNodesMap: Map<string, string>, finish: string) {
   let parent = parentsOfNodesMap.get(finish);
   const result = [finish];
 
