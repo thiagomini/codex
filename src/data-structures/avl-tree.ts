@@ -14,10 +14,6 @@ export class AVLTree {
     return this.findRecursive(value, this.root);
   }
 
-  public pathTo(value: number): number[] {
-    return this.pathToNode(value, this.root as AVLNode);
-  }
-
   private createNode(newValue: number, nodeToCompare?: AVLNode): AVLNode {
     if (!nodeToCompare) return new AVLNode(newValue);
 
@@ -81,22 +77,6 @@ export class AVLTree {
     if (value === node.value) return node;
     if (value < node.value) return this.findRecursive(value, node.left);
     else return this.findRecursive(value, node.right);
-  }
-
-  private pathToNode(value: number, nodeToCompare?: AVLNode): number[] {
-    if (!nodeToCompare) return [];
-    if (value === nodeToCompare.value) return [nodeToCompare.value];
-    if (value > nodeToCompare.value) {
-      if (nodeToCompare.right === undefined) return [];
-      return [nodeToCompare.value].concat(
-        this.pathToNode(value, nodeToCompare.right as AVLNode)
-      );
-    } else {
-      if (nodeToCompare.left === undefined) return [];
-      return [nodeToCompare.value].concat(
-        this.pathToNode(value, nodeToCompare.left as AVLNode)
-      );
-    }
   }
 }
 
