@@ -47,6 +47,12 @@ export class AVLTree {
       return this.rotateRight(nodeToCompare);
     }
 
+    // Right Left Case
+    if (balance > 1 && newValue < (nodeToCompare.right?.value as number)) {
+      nodeToCompare.right = this.rotateRight(nodeToCompare.right as AVLNode);
+      return this.rotateLeft(nodeToCompare);
+    }
+
     return nodeToCompare;
   }
 
