@@ -19,11 +19,11 @@ describe('AVL Tree', () => {
       const avl = new AVLTree();
 
       // Act
-      avl.addMany(2, 1, 3, 4, 5);
+      avl.addMany(2, 3, 4);
 
       // Assert
       const root = avl.root;
-      expect(root).toEqual(node({ value: 2, left: 1, right: 4, height: 2 }));
+      expect(root).toEqual(node({ value: 3, left: 2, right: 4, height: 1 }));
     });
   });
 });

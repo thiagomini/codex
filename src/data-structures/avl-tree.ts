@@ -18,20 +18,13 @@ export class AVLTree {
     return this.pathToNode(value, this.root as AVLNode);
   }
 
-  private findMaxFrom(subtreeRootNode?: AVLNode): AVLNode | undefined {
-    if (!subtreeRootNode) return undefined;
-
-    if (subtreeRootNode.right) return this.findMaxFrom(subtreeRootNode.right);
-    return subtreeRootNode;
-  }
-
   private createNode(newValue: number, nodeToCompare?: AVLNode): AVLNode {
     if (!nodeToCompare) return new AVLNode(newValue);
 
     if (newValue < nodeToCompare.value) {
       nodeToCompare.left = this.createNode(newValue, nodeToCompare.left);
     } else if (newValue > nodeToCompare.value) {
-      nodeToCompare.right = this.createNode(newValue, nodeToCompare);
+      nodeToCompare.right = this.createNode(newValue, nodeToCompare.right);
     } else {
       return nodeToCompare;
     }
@@ -43,6 +36,11 @@ export class AVLTree {
       return this.rotateRight(nodeToCompare);
     }
 
+    // Right Right Case
+    if (balance > 1 && newValue > (nodeToCompare.right?.value as number)) {
+      return this.rotateLeft(nodeToCompare);
+    }
+
     return nodeToCompare;
   }
 
@@ -52,6 +50,16 @@ export class AVLTree {
 
     newRoot.right = node;
     node.left = T2;
+
+    return newRoot;
+  }
+
+  private rotateLeft(node: AVLNode): AVLNode {
+    const newRoot = node.right as AVLNode;
+    const T2 = newRoot?.left;
+
+    newRoot.left = node;
+    node.right = T2;
 
     return newRoot;
   }
